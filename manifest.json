@@ -1,0 +1,15 @@
+{
+    "id": "glm",
+    "name": "Z.ai / GLM (Standard & Coding Plan)",
+    "version": "1.0.0",
+    "author": "DJLegends",
+    "description": "Adds two connection kinds for Z.ai / Zhipu AI: \"Z.ai / GLM Coding Plan\" (api/coding/paas/v4) for Coding Plan subscriptions and \"Z.ai / GLM Standard API\" (api/paas/v4) for pay-as-you-go keys. Supports GLM thinking mode (reasoning_content), automatic sampler clamping, Zhipu error code translation (1113 quota, 1302 concurrency), and Global (api.z.ai) or Mainland China (open.bigmodel.cn) regions.",
+    "requires": { "api": "2.6" },
+    "client": "client/index.js",
+    "server": "server/index.js",
+    "settings": {
+        "region": "global",
+        "thinkingMode": "auto",
+        "clampSamplers": true
+    }
+}
