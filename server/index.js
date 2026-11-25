@@ -85,6 +85,8 @@ export function register(router, ctx) {
         }
     }
 
+    const GLM_EFFORT = { minimal: 'low', low: 'low', medium: 'high', high: 'high', xhigh: 'max', max: 'max' };
+
     const PARAMS = {
         temperature: 'temperature',
         topP: 'top_p',
@@ -93,10 +95,14 @@ export function register(router, ctx) {
         seed: 'seed',
         json: (on, body) => { if (on) body.response_format = { type: 'json_object' }; },
         reasoning: (r, body) => {
+            if (r?.effort === 'none') {
+                body.thinking = { type: 'disabled' };
+                return;
+            }
             body.thinking = { type: 'enabled' };
-            // Newer GLM-5.x models also read reasoning_effort ('low' | 'high' | 'max')
+            // Newer GLM-5.x models also read reasoning_effort ('low' | 'high' | 'max'); other words go up as typed
             if (r?.effort && /^glm-5/i.test(String(body.model || ''))) {
-                body.reasoning_effort = r.effort === 'medium' ? 'high' : r.effort;
+                body.reasoning_effort = GLM_EFFORT[r.effort] || r.effort;
             }
         },
     };
