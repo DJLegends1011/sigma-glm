@@ -85,8 +85,6 @@ export function register(router, ctx) {
         }
     }
 
-    const GLM_EFFORT = { minimal: 'low', low: 'low', medium: 'high', high: 'high', xhigh: 'max', max: 'max' };
-
     const PARAMS = {
         temperature: 'temperature',
         topP: 'top_p',
@@ -100,9 +98,9 @@ export function register(router, ctx) {
                 return;
             }
             body.thinking = { type: 'enabled' };
-            // Newer GLM-5.x models also read reasoning_effort ('low' | 'high' | 'max'); other words go up as typed
+            // GLM-5.x reads reasoning_effort and names none to max itself (tried live on glm-5 to 5.4, 2026-11-25), so the word goes as picked
             if (r?.effort && /^glm-5/i.test(String(body.model || ''))) {
-                body.reasoning_effort = GLM_EFFORT[r.effort] || r.effort;
+                body.reasoning_effort = r.effort;
             }
         },
     };
